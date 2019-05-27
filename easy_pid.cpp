@@ -67,6 +67,17 @@ void PID_CONTROLLER::setSampleTime(float sample_time)
 }
 
 /**
+ *@function set the goal of PID controller
+ *@param 
+ *		goal: goal
+ *@return none
+ */
+void PID_CONTROLLER::setGoal(float goal)
+{
+	Goal = goal;
+}
+
+/**
  *@function get the proportionality coefficients of PID controller
  *@param none
  *@return 
@@ -138,13 +149,13 @@ float PID_CONTROLLER::update(float FeedbackValue)
 {
 	float error = Goal - FeedbackValue;	/* calculate the e(t) */
 	
-	CurrentTime = millis() /* get current time */
-	int delta_time = CurrentTime - LastTime;	/* calculate Δtime */
+	CurrentTime = millis(); /* get current time */
+	float delta_time = CurrentTime - LastTime;	/* calculate Δtime */
 	float delta_error = error - LastError;	/* calculate Δerror */
 
 	if (delta_time >= SampleTime)
 	{
-		PTerm = Kp * error;	/* calculate Kp*e(t) */
+		PTerm = kp * error;	/* calculate Kp*e(t) */
 		ITerm += error * delta_time;	/* calculate the approximate value of \int_{0}^{t} e(t)dt*/
 			if (ITerm < -WindupGuard)	/* protect the ITerm value not to over the safe range */
 			{
@@ -162,7 +173,7 @@ float PID_CONTROLLER::update(float FeedbackValue)
 		LastTime = CurrentTime;
 		LastError = error;
 
-		Output = PTerm + Ki * ITerm + Kd * DTerm;	/* calculate the value of output */
+		Output = PTerm + ki * ITerm + kd * DTerm;	/* calculate the value of output */
 	}
 	return Output;
 }

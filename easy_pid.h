@@ -19,12 +19,13 @@ public:
 	void setPID(float kp, float ki, float kd);
 	void setWindup(float windup);
 	void setSampleTime(float sample_time);
+	void setGoal(float goal);
+	void clear();
 	float getKp();
 	float getKi();
 	float getKd();
 	float getWindup();
-	void clear();
-	void update(float FeedbackValue);
+	float update(float FeedbackValue);
 
 private:
 	float kp;
